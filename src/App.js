@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import {Helmet} from "react-helmet";
+import jsonld from "./jsonld.json";
+import { data } from "./dummy";
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <Helmet>
+      <script type="application/ld+json">
+        {JSON.stringify(jsonld)}
+      </script>
+    </Helmet>
+    {
+          data.map((data)=>(
+          <div key={data._id} className="movie_card" id="tomb">
+          <div className="info_section">
+            <div  className="movie_header">
+              <img
+                className="locandina"
+                src={data.image}
+              alt=""></img>
+              <ul>
+                <li><h1>{data.name}</h1></li>
+                <li><h2>Release : {data.datePublished}</h2></li>
+                <li>{data.genres.map((genre,i)=> <p key={genre} className="type">{genre}</p>)}</li>
+                <li><p className="text">{data.description}</p></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        ))
+      }
+    </>
   );
-}
+};
 
 export default App;
